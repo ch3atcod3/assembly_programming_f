@@ -1,8 +1,4 @@
-# 05.asm — Pushing and Popping 64-bit Values
-
-## Purpose
-
-This program demonstrates that a 64-bit `push`/`pop` uses 8-byte stack slots in 64-bit mode. It pushes a large 64-bit value and a smaller value, then pops them in reverse order.
+# 05.asm 
 
 ## Execution flow
 
@@ -28,17 +24,4 @@ Let the initial `RSP` be **S**.
 
 The smaller value is popped first because it was pushed last. After both pops, the stack pointer returns to its starting value. Notice that the program subsequently overwrites `RAX` with 60 to select the exit system call, so the popped 64-bit value is no longer in `RAX` at program termination.
 
-## Runtime observations
 
-The program is silent because it does not print the register contents. Immediately after the two pops, the expected values are `RBX = 0x1234` and `RAX = 0x1122334455667788`; immediately before the exit system call, `RAX` is changed to 60. The expected exit status is 0. NASM was not available in the environment used to prepare this README, so these are source-derived expected observations, not recorded execution results.
-
-## Assemble and run on 64-bit Linux
-
-```bash
-nasm -f elf64 05.asm -o 05.o
-ld -o 05 05.o
-./05
-echo $?
-```
-
-Expected exit status: `0`.
