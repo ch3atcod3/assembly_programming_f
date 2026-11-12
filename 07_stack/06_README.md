@@ -1,8 +1,4 @@
-# 06.asm — Pushing and Popping 32-bit Values
-
-## Purpose
-
-This program demonstrates stack operations in 32-bit mode. It uses `EAX` and `EBX`, and each push or pop changes `ESP` by 4 bytes.
+# 06.asm
 
 ## Execution flow
 
@@ -16,8 +12,7 @@ Let the initial value of `ESP` be **S**.
 6. `pop eax` retrieves `0x11223344` into `EAX` and increases `ESP` to **S**.
 7. The program sets `EAX = 1` to select the Linux i386 `exit` system call and clears `EBX` to set exit status 0. `int 0x80` invokes the system call.
 
-## Stack movement and LIFO order
-
+## Stack movement 
 | Instruction | Value retrieved/stored | ESP after instruction |
 |---|---|---:|
 | Start | — | S |
@@ -28,17 +23,3 @@ Let the initial value of `ESP` be **S**.
 
 The program follows last-in, first-out order: the second value pushed (`0x1234`) is the first one popped. After both pops, `ESP` is restored to its original value. The program then overwrites `EAX` and `EBX` with the exit syscall number and status, so the popped values are not preserved until termination.
 
-## Runtime observations
-
-There is no printed output. Immediately after the pops, the expected values are `EBX = 0x1234` and `EAX = 0x11223344`. Before the exit interrupt, these registers are changed to `EAX = 1` and `EBX = 0`. The expected exit status is 0. This is a 32-bit program and needs 32-bit execution support. NASM was not available in the environment used to prepare this README, so these are expected observations from the instructions rather than recorded execution results.
-
-## Assemble and run on Linux with 32-bit support
-
-```bash
-nasm -f elf32 06.asm -o 06.o
-ld -m elf_i386 -o 06 06.o
-./06
-echo $?
-```
-
-Expected exit status: `0`.
