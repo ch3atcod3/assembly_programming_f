@@ -1,8 +1,4 @@
-# 03.asm — CALL, RET, and the Return Address
-
-## Purpose
-
-This program shows how `call` and `ret` use the stack to transfer control to a function and then return to the caller. The function also changes a value in `RAX`.
+# 03.asm 
 
 ## Execution flow
 
@@ -26,17 +22,3 @@ Let the value of `RSP` before the call be **S**.
 
 This example does not explicitly use `push` or `pop`, but `call` and `ret` perform stack operations internally. `call` saves where execution must resume; `ret` retrieves that address. The stack is balanced when the function returns.
 
-## Runtime observations
-
-The program prints nothing. The expected result after the call is `RAX = 15`, and `RSP` is restored to its pre-call value. The expected process exit status is 0. A debugger is needed to inspect `RAX` at `after_call`; the source has no output instruction. NASM was not available in the environment used to prepare this README, so these are expected observations from the code rather than recorded execution results.
-
-## Assemble and run on 64-bit Linux
-
-```bash
-nasm -f elf64 03.asm -o 03.o
-ld -o 03 03.o
-./03
-echo $?
-```
-
-Expected exit status: `0`.
